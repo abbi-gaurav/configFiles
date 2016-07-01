@@ -1,0 +1,15 @@
+alias ls='ls -G'
+alias la='ls -alrth'
+alias cdd='cd ..'
+alias md='mkdir'
+alias k='clear'
+alias vi='vim'
+alias myTree='find . -print | sed -e "s;[^/]*/;|____;g;s;____|; |;g"'
+alias grep='grep --color=always'
+alias egrep='egrep --color=always'
+if [ -z $EMACS ]; then 
+	alias lk='clear && ls -lrth'
+else
+	alias lk='ls -lrth'
+fi
+alias git='clear && /usr/bin/git'
