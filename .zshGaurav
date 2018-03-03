@@ -1,0 +1,36 @@
+source ~/.aliases
+
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+export localBin=~/localBin
+export PATH=$PATH:$localBin
+
+if [ -z $EMACS ]; then
+     	echo "not in emacs"
+else
+	echo "in emacs"
+	export PATH=/usr/local/bin:$PATH
+fi
+
+export HISTFILE="$HOME/.history"
+export HISTSIZE=50000
+export SAVEHIST=$HISTSIZE
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+
+# completion
+autoload -U compinit
+compinit
+
+# command completion 
+zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
+zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
+
+# correction
+setopt correctall
+
+# make PS1 to have cursor or next line
+export PS1=${PS1%-}$'\n'$
+
+#kubectl completion
+source <(kubectl completion zsh)
