@@ -351,6 +351,7 @@ you should place your code here."
  '(delete-selection-mode t)
  '(electric-pair-mode t)
  '(electric-quote-mode t)
+ '(global-visual-line-mode t)
  '(org-agenda-dim-blocked-tasks nil)
  '(org-agenda-show-inherited-tags nil)
  '(org-agenda-skip-deadline-prewarning-if-scheduled t)
