@@ -153,11 +153,12 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(exec-path
    (quote
-    ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/25.3/libexec/emacs/25.3/x86_64-apple-darwin16.7.0")))
+    ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/25.3/libexec/emacs/25.3/x86_64-apple-darwin16.7.0" "/usr/local/bin/" "~/.local/bin")))
  '(fci-rule-color "#073642")
  '(haskell-stylish-on-save t)
  '(hindent-reformat-buffer-on-save t)
  '(hindent-style nil)
+ '(intero-package-version "0.1.28")
  '(org-agenda-skip-deadline-prewarning-if-scheduled t)
  '(org-agenda-skip-scheduled-if-deadline-is-shown t)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (sh . t))))
