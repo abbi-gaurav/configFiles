@@ -8,16 +8,10 @@
 (package-initialize)
 (package-refresh-contents)
 
-(setq select-enable-clipboard t)
-(delete-selection-mode 1)
-
 (require 'ido)
 (ido-mode t)
 
 (setenv "PAGER" "/bin/cat")
-
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
 
 (setq mac-option-key-is-meta t)
 (setq mac-right-option-modifier nil)
@@ -134,6 +128,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 ; keep a list of recently opened files
 (recentf-mode 1) 
+
 ;; set F7 to list recently opened file
 (global-set-key (kbd "<f7>") 'recentf-open-files)
 
@@ -205,22 +200,16 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+(add-to-list 'auto-mode-alist '("\\.log\\'" . display-ansi-colors))
 
-; parenthesis
-; highlight matching parenthesis
-(require 'paren)
-(setq show-paren-style 'parenthesis)
-(show-paren-mode +1)
-(set-face-background 'show-paren-match (face-background 'default))
-(set-face-foreground 'show-paren-match "#def")
-(set-face-attribute 'show-paren-match nil :weight 'extra-bold)
 
 ;add js2-ide mode
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
-
-(global-linum-mode t)
-(setq column-number-mode t)
 
 ; yaml
 (require 'yaml-mode)
@@ -233,13 +222,6 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 (add-to-list 'auto-mode-alist '("\\.clj\\'" . clojure-mode))
 
-; color
-(require 'ansi-color)
-(defun display-ansi-colors ()
-  (interactive)
-  (ansi-color-apply-on-region (point-min) (point-max)))
-(add-to-list 'auto-mode-alist '("\\.log\\'" . display-ansi-colors))
-
 ; to undo C-/
 ; to redo C-g C-/
 
@@ -251,33 +233,53 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (global-set-key (kbd "C-x <right>") 'windmove-right)
 
 
-; enable highlight line mode
-; (global-hl-line-mode 1)
-
 ; artist-mode
 ; to fix right click issue
 (eval-after-load "artist"
-   '(define-key artist-mode-map [(down-mouse-3)] 'artist-mouse-choose-operation)
-   )
+   '(define-key artist-mode-map [(down-mouse-3)] 'artist-mouse-choose-operation))
 
 ; make ssh as default tramp mode
 (setq tramp-default-method "ssh")
 
-; auto close bracket insertion. New in emacs 24
-(electric-pair-mode 1)
-
 ; switch to previous buffer
 (global-set-key (kbd "C-c b") 'switch-to-prev-buffer)
-
-; enable autofill
-; enable 120 characters long fill column
-; (setq-default fill-column 120)
-; (setq-default auto-fill-function 'do-auto-fill)
 
 ; apply theme
 (add-hook 'after-init-hook (lambda () (load-theme 'spacemacs-dark)))
 
 ; insert special chars
 (global-set-key (kbd "C-x 8 l") "λ")
+
+; editor
+(global-linum-mode t)
+(setq column-number-mode t)
+
+; parenthesis
+; highlight matching parenthesis
+(require 'paren)
+(setq show-paren-style 'parenthesis)
+(show-paren-mode 1)
+(set-face-background 'show-paren-match (face-background 'default))
+(set-face-foreground 'show-paren-match "#def")
+(set-face-attribute 'show-paren-match nil :weight 'extra-bold)
+
+; auto close bracket insertion. New in emacs 24
+(electric-pair-mode 1)
+
+(setq select-enable-clipboard t)
+(delete-selection-mode 1)
+
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+; enable highlight line mode
+; (global-hl-line-mode 1)
+
+
+; enable autofill
+; enable 120 characters long fill column
+; (setq-default fill-column 120)
+; (setq-default auto-fill-function 'do-auto-fill)
+;; editor ends here
 
 ;;; .emacs ends here
