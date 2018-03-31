@@ -143,9 +143,10 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
  '(comint-move-point-for-output t)
  '(comint-scroll-show-maximum-output t)
  '(comint-scroll-to-bottom-on-input t)
+ '(custom-enabled-themes (quote (spacemacs-dark)))
  '(custom-safe-themes
    (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+    ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(exec-path
    (quote
     ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/25.3/libexec/emacs/25.3/x86_64-apple-darwin16.7.0" "/usr/local/bin/" "~/.local/bin")))
@@ -161,14 +162,13 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
  '(package-selected-packages
    (quote
     (spacemacs-theme hindent color-theme-sanityinc-solarized scala-mode groovy-mode org-bullets intero clojure-mode xterm-color flycheck yaml-mode persistent-scratch markdown-mode logview log4j-mode)))
- '(persistent-scratch-autosave-mode t)
- '(spacemacs-theme-custom-colors (quote ((highlight . "yellow")))))
+ '(persistent-scratch-autosave-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(region ((t (:background "yellow" :foreground "blue")))))
 
 ; flycheck
 (package-install 'flycheck)
@@ -244,24 +244,12 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 ; switch to previous buffer
 (global-set-key (kbd "C-c b") 'switch-to-prev-buffer)
 
-; apply theme
-(add-hook 'after-init-hook (lambda () (load-theme 'spacemacs-dark)))
-
 ; insert special chars
 (global-set-key (kbd "C-x 8 l") "λ")
 
 ; editor
 (global-linum-mode t)
 (setq column-number-mode t)
-
-; parenthesis
-; highlight matching parenthesis
-(require 'paren)
-(setq show-paren-style 'parenthesis)
-(show-paren-mode 1)
-(set-face-background 'show-paren-match (face-background 'default))
-(set-face-foreground 'show-paren-match "#def")
-(set-face-attribute 'show-paren-match nil :weight 'extra-bold)
 
 ; auto close bracket insertion. New in emacs 24
 (electric-pair-mode 1)
@@ -271,6 +259,20 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+;; highlight matching parenthesis
+;; parenthesis
+(require 'paren)
+(show-paren-mode t)
+(set-face-foreground 'show-paren-match-face "red")
+(set-face-attribute 'show-paren-match-face nil
+        :weight 'extra-bold :underline nil :overline nil :slant 'normal)
+
+;; search
+(set-face-attribute 'lazy-highlight nil :foreground "black" :background "yellow")
+
+;; apply theme
+;;(add-hook 'after-init-hook (lambda () (load-theme 'spacemacs-dark)))
 
 ; enable highlight line mode
 ; (global-hl-line-mode 1)
