@@ -161,7 +161,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
  '(org-enforce-todo-dependencies t)
  '(package-selected-packages
    (quote
-    (spacemacs-theme hindent color-theme-sanityinc-solarized scala-mode groovy-mode org-bullets intero clojure-mode xterm-color flycheck yaml-mode persistent-scratch markdown-mode logview log4j-mode)))
+    (magit spacemacs-theme hindent color-theme-sanityinc-solarized scala-mode groovy-mode org-bullets intero clojure-mode xterm-color flycheck yaml-mode persistent-scratch markdown-mode logview log4j-mode)))
  '(persistent-scratch-autosave-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -181,8 +181,12 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (require 'hindent)
 (add-hook 'haskell-mode-hook (lambda() (intero-mode)))
 (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-
 ;;  haskell end
+
+;; magit
+(package-install 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
 ;; markdown
 (require 'markdown-mode)
@@ -270,6 +274,12 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 ;; search
 (set-face-attribute 'lazy-highlight nil :foreground "black" :background "yellow")
+
+;; make C-s <search> RET to have cursor at begining
+(add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
+    (defun my-goto-match-beginning ()
+      (when (and isearch-forward isearch-other-end)
+        (goto-char isearch-other-end)))
 
 ;; apply theme
 ;;(add-hook 'after-init-hook (lambda () (load-theme 'spacemacs-dark)))
