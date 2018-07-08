@@ -5,6 +5,7 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
 (package-refresh-contents)
 
@@ -18,7 +19,7 @@
 
 (require 'calendar)
 
-; org mode
+; org mode starts
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -30,15 +31,17 @@
 ; agenda files dierctory
 (load-library "find-lisp")
 (setq-default org-agenda-files
-      (find-lisp-find-files "~/OneDrive - SAP SE/po/wip" "\.org$"))
+	      (append
+	       (find-lisp-find-files "~/OneDrive - SAP SE/po/wip" "\.org$") (find-lisp-find-files "~/go/src/github.wdf.sap.corp/kyma/kyma-workshops" "\.org$")
+	       )
+	      )
 
 ;org-mode lines wrap
 (define-key org-mode-map "\M-q" 'toggle-truncate-lines)
 
 ; enable language execution in org mode
-(require 'ob-sh)
+(require 'ob-shell)
 (require 'ob-haskell)
-(require 'ob-scala)
 (require 'ob-java)
 
 (eval-after-load "org"
@@ -112,6 +115,8 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                      '(or (air-org-skip-subtree-if-priority ?A)
                           (org-agenda-skip-if nil '(scheduled deadline))))))))))
 
+;; add these extension to org mode
+(add-to-list 'auto-mode-alist '("\\.og\\'" . org-mode))
 ; org-mode ends here
 
 ; command execution
@@ -137,13 +142,17 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(comint-completion-addsuffix t)
  '(comint-completion-autolist t)
  '(comint-input-ignoredups t)
  '(comint-move-point-for-output t)
  '(comint-scroll-show-maximum-output t)
  '(comint-scroll-to-bottom-on-input t)
- '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(custom-enabled-themes (quote (spacemacs-light)))
  '(custom-safe-themes
    (quote
     ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
@@ -157,11 +166,11 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
  '(intero-package-version "0.1.28")
  '(org-agenda-skip-deadline-prewarning-if-scheduled t)
  '(org-agenda-skip-scheduled-if-deadline-is-shown t)
- '(org-babel-load-languages (quote ((emacs-lisp . t) (sh . t))))
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t))))
  '(org-enforce-todo-dependencies t)
  '(package-selected-packages
    (quote
-    (magit spacemacs-theme hindent color-theme-sanityinc-solarized scala-mode groovy-mode org-bullets intero clojure-mode xterm-color flycheck yaml-mode persistent-scratch markdown-mode logview log4j-mode)))
+    (lua-mode go-mode flymd ox-pandoc org json-mode magit spacemacs-theme hindent color-theme-sanityinc-solarized scala-mode groovy-mode org-bullets intero clojure-mode xterm-color flycheck yaml-mode persistent-scratch markdown-mode logview log4j-mode)))
  '(persistent-scratch-autosave-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -268,8 +277,8 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 ;; parenthesis
 (require 'paren)
 (show-paren-mode t)
-(set-face-foreground 'show-paren-match-face "red")
-(set-face-attribute 'show-paren-match-face nil
+(set-face-foreground 'show-paren-match "red")
+(set-face-attribute 'show-paren-match nil
         :weight 'extra-bold :underline nil :overline nil :slant 'normal)
 
 ;; search

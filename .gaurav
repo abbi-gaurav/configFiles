@@ -1,25 +1,45 @@
+ssh-add -K ~/.ssh/id_rsa
 export PS1=[${LOGNAME}@`uname -n`]'$PWD>\n$'
+
 if [ -z $INSIDE_EMACS ]; then 
 	export GREP_OPTIONS='--color=auto'
 else
 	export TERM='xterm-color'
 fi
+
 . ~/.aliases
+. ~/.work-aliases
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 
-export PATH=$PATH:/usr/localBin
+export LOCAL_BIN=~/localBin
+export PLAY_PATH=~/softwares/activator-1.3.10-minimal/bin
+export BREW_BIN=/usr/local/bin
+export DOT_LOCAL_BIN=~/.local/bin
+
+export PATH=$DOT_LOCAL_BIN:$LOCAL_BIN:$BREW_BIN:$PLAY_PATH:$PATH
+
+export KAFKA_PATH=~/softwares/learning/kafka_2.11-0.10.0.0/bin
+export PATH=$PATH:$KAFKA_PATH
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 if [ -z $INSIDE_EMACS ]; then
      	echo "not in emacs"
+	if [ -f $(brew --prefix)/etc/bash_completion ]; then
+	   . $(brew --prefix)/etc/bash_completion
+	fi	
 else
-	export PATH=$PATH:/usr/local/bin     
+	echo "in bash emacs"
+	export PATH=$PATH:/usr/local/bin
 fi
 
 shopt -s nocaseglob
 
-export HISTSIZE=5000
+export HISTSIZE=50000
 
-export EDITOR="emacs -nw"
 
-export PATH=$PATH:~/learning/udemy/kubernetes/softwares/bin
+#haskell stack autocomplete
+eval "$(stack --bash-completion-script stack)"
+
+#kubectl autocompletion
+source <(kubectl completion bash)
