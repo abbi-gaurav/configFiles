@@ -2,6 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
+;;; useful
+
+;;; C-x r SPC runs point-to-register
+;;; C-x r j   runs jump-to-register
+;;; Type any character to specify a register when prompted
+
 (require 'package)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -11,6 +17,8 @@
 
 (require 'ido)
 (ido-mode t)
+
+(delete-selection-mode 1)
 
 (setenv "PAGER" "/bin/cat")
 
@@ -26,18 +34,21 @@
 (define-key global-map "\C-ct" 'org-time-stamp-inactive)
 (setq org-startup-indented t)
 (setq org-todo-keywords
-      '((sequence "TODO" "IN-PROGRESS" "BLOCKED" "DONE")))
+      '((sequence "TODO" "IN-PROGRESS" "BLOCKED" "REVIEW" "DONE")))
 
 ; agenda files dierctory
 (load-library "find-lisp")
 (setq-default org-agenda-files
 	      (append
-	       (find-lisp-find-files "~/OneDrive - SAP SE/po/wip" "\.org$") (find-lisp-find-files "~/go/src/github.wdf.sap.corp/kyma/kyma-workshops" "\.org$")
+	       (find-lisp-find-files "~/OneDrive - SAP SE/po/wip" "\.org$")
 	       )
 	      )
 
 ;org-mode lines wrap
 (define-key org-mode-map "\M-q" 'toggle-truncate-lines)
+
+; to use shortcut for org source code
+(require 'org-tempo)
 
 ; enable language execution in org mode
 (require 'ob-shell)
@@ -127,7 +138,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (setq shell-file-name "/bin/bash")
 (setenv "SHELL" shell-file-name)
 ; add custom paths
-(setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
+(setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin" ":~/.local/bin"))
 
 ; command execution ends
 
@@ -163,14 +174,13 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
  '(haskell-stylish-on-save t)
  '(hindent-reformat-buffer-on-save t)
  '(hindent-style nil)
- '(intero-package-version "0.1.28")
  '(org-agenda-skip-deadline-prewarning-if-scheduled t)
  '(org-agenda-skip-scheduled-if-deadline-is-shown t)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t))))
  '(org-enforce-todo-dependencies t)
  '(package-selected-packages
    (quote
-    (lua-mode go-mode flymd ox-pandoc org json-mode magit spacemacs-theme hindent color-theme-sanityinc-solarized scala-mode groovy-mode org-bullets intero clojure-mode xterm-color flycheck yaml-mode persistent-scratch markdown-mode logview log4j-mode)))
+    (org-present intero lua-mode go-mode flymd ox-pandoc json-mode magit spacemacs-theme hindent color-theme-sanityinc-solarized scala-mode groovy-mode org-bullets clojure-mode xterm-color flycheck yaml-mode persistent-scratch markdown-mode logview log4j-mode)))
  '(persistent-scratch-autosave-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -302,5 +312,19 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 ; (setq-default fill-column 120)
 ; (setq-default auto-fill-function 'do-auto-fill)
 ;; editor ends here
+
+;; org-present
+(autoload 'org-present "org-present" nil t)
+
+  (add-hook 'org-present-mode-hook
+            (lambda ()
+              (org-present-big)
+              (org-display-inline-images)))
+
+  (add-hook 'org-present-mode-quit-hook
+            (lambda ()
+              (org-present-small)
+              (org-remove-inline-images)))
+;; org-present ends here
 
 ;;; .emacs ends here
