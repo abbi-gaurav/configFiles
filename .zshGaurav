@@ -2,31 +2,14 @@ ssh-add -K ~/.ssh/id_rsa
 source ~/.aliases
 source ~/.work-aliases
 
-function k8sEnv(){
-    command echo $KUBECONFIG|awk -F'/' '{print $NF}'
-}
-
-function kube-config(){
-    command kubectl config current-context
-}
-
 export JAVA_HOME=$(/usr/libexec/java_home)
-
 export LOCAL_BIN=~/localBin
-export PLAY_PATH=~/softwares/activator-1.3.10-minimal/bin
 export BREW_BIN=/usr/local/bin
 export DOT_LOCAL_BIN=~/.local/bin
+export GO_BIN=~/go/bin
+export KUBEBUILDER_ASSETS=~/softwares/kubebuilder/kubebuilder_1.0.7_darwin_amd64/bin
 
-export PATH=$DOT_LOCAL_BIN:$LOCAL_BIN:$BREW_BIN:$PLAY_PATH:$PATH
-
-export KAFKA_PATH=~/softwares/learning/kafka_2.11-0.10.0.0/bin
-export PATH=$PATH:$KAFKA_PATH
-
-if [ -z $EMACS ]; then
-     	echo "not in emacs"
-else
-	echo "in emacs"
-fi
+export PATH=$GO_BIN:$DOT_LOCAL_BIN:$LOCAL_BIN:$BREW_BIN:$PATH:$KUBEBUILDER_ASSETS
 
 export HISTFILE="$HOME/.history"
 export HISTSIZE=50000
@@ -34,21 +17,28 @@ export SAVEHIST=$HISTSIZE
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 
-if [[ -n $SSH_CONNECTION ]]; then
-      export EDITOR='vim'
+if [ -z $EMACS ]; then
+     	echo "not in emacs"
 else
-      export EDITOR='vim'
+	echo "in emacs"
 fi
-
-#temp for tmux fix
-export EVENT_NOKQUEUE=1 
 
 #haskell stack autocomplete
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 eval "$(stack --bash-completion-script stack)"
 
-#terminal
+# setup autocomplete in zsh
+source <(kubectl completion zsh)
+source <(helm completion zsh)
+source <(minikube completion zsh)
+
+# go set up
+export GOPATH=$HOME/go
+export GOROOT=/usr/local/opt/go/libexec
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin
 
 ##change the PS1 to have cursor on new line
 #export PS1=${PS1%?}' $(k8sEnv) '$'\n'$
@@ -65,14 +55,19 @@ zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 #setopt correctall
 unsetopt correctall
 
-# setup autocomplete in zsh
-source <(kubectl completion zsh)
-source <(helm completion zsh)
-#source <(istioctl completion zsh)
+function k8sEnv(){
+    command echo $KUBECONFIG|awk -F'/' '{print $NF}'
+}
 
-# go set up
-export GOPATH=$HOME/go
-export GOROOT=/usr/local/opt/go/libexec
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin
+function kube-config(){
+    command kubectl config current-context
+}
+
+if [[ -n $SSH_CONNECTION ]]; then
+      export EDITOR='vim'
+else
+      export EDITOR='vim'
+fi
+
+#temp for tmux fix
+export EVENT_NOKQUEUE=1 

@@ -1,5 +1,21 @@
 ssh-add -K ~/.ssh/id_rsa
-export PS1=[${LOGNAME}@`uname -n`]'$PWD>\n$'
+. ~/.aliases
+. ~/.work-aliases
+
+export JAVA_HOME=$(/usr/libexec/java_home)
+export LOCAL_BIN=~/localBin
+export BREW_BIN=/usr/local/bin
+export DOT_LOCAL_BIN=~/.local/bin
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export KUBEBUILDER_ASSETS=~/softwares/kubebuilder/kubebuilder_1.0.7_darwin_amd64/bin
+export PATH=$DOT_LOCAL_BIN:$LOCAL_BIN:$BREW_BIN:$PATH:$KUBEBUILDER_ASSETS
+
+shopt -s nocaseglob
+
+export HISTSIZE=50000
+
+
 
 if [ -z $INSIDE_EMACS ]; then 
 	export GREP_OPTIONS='--color=auto'
@@ -7,21 +23,24 @@ else
 	export TERM='xterm-color'
 fi
 
-. ~/.aliases
-. ~/.work-aliases
+#haskell stack autocomplete
+#autoload -U +X compinit && compinit
+#autoload -U +X bashcompinit && bashcompinit
+eval "$(stack --bash-completion-script stack)"
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+#kubectl autocompletion
+source <(kubectl completion bash)
+source <(helm completion bash)
+source <(minikube completion bash)
 
-export LOCAL_BIN=~/localBin
-export PLAY_PATH=~/softwares/activator-1.3.10-minimal/bin
-export BREW_BIN=/usr/local/bin
-export DOT_LOCAL_BIN=~/.local/bin
+# go set up
+export GOPATH=$HOME/go
+export GOROOT=/usr/local/opt/go/libexec
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin
 
-export PATH=$DOT_LOCAL_BIN:$LOCAL_BIN:$BREW_BIN:$PLAY_PATH:$PATH
-
-export KAFKA_PATH=~/softwares/learning/kafka_2.11-0.10.0.0/bin
-export PATH=$PATH:$KAFKA_PATH
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PS1=[${LOGNAME}@`uname -n`]'$PWD>\n$'
 
 if [ -z $INSIDE_EMACS ]; then
      	echo "not in emacs"
@@ -32,14 +51,3 @@ else
 	echo "in bash emacs"
 	export PATH=$PATH:/usr/local/bin
 fi
-
-shopt -s nocaseglob
-
-export HISTSIZE=50000
-
-
-#haskell stack autocomplete
-eval "$(stack --bash-completion-script stack)"
-
-#kubectl autocompletion
-source <(kubectl completion bash)
