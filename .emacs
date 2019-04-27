@@ -27,7 +27,12 @@
 
 (require 'calendar)
 
-; org mode starts
+;;multi-term
+(require 'multi-term)
+(setq multi-term-program "/bin/zsh")
+
+
+;; org mode starts
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -54,6 +59,7 @@
 (require 'ob-shell)
 (require 'ob-haskell)
 (require 'ob-java)
+(require 'ob-go)
 
 (eval-after-load "org"
   '(require 'ox-md nil t))
@@ -133,12 +139,20 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 ; command execution
 (setq default-directory (concat (getenv "HOME") "/"))
 (setq command-line-default-directory "~/")
-(setenv "ESHELL" (expand-file-name "~/localBin/eshell"))
 (setq explicit-shell-file-name "/bin/bash")
+(setq shell-command-switch "-ic")
 (setq shell-file-name "/bin/bash")
 (setenv "SHELL" shell-file-name)
-; add custom paths
-(setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin" ":~/.local/bin"))
+;; add custom paths
+(setenv "PATH"
+	(concat
+	 "~/go/bin" ":"
+	 "~/.local/bin" ":"
+	 "/usr/local/bin" ":"
+	 (getenv "PATH") ":"
+	 )
+	)
+;; (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin" ":~/.local/bin"))
 
 ; command execution ends
 
@@ -180,7 +194,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
  '(org-enforce-todo-dependencies t)
  '(package-selected-packages
    (quote
-    (org-present intero lua-mode go-mode flymd ox-pandoc json-mode magit spacemacs-theme hindent color-theme-sanityinc-solarized scala-mode groovy-mode org-bullets clojure-mode xterm-color flycheck yaml-mode persistent-scratch markdown-mode logview log4j-mode)))
+    (multi-term org-present intero lua-mode go-mode flymd ox-pandoc json-mode magit spacemacs-theme hindent color-theme-sanityinc-solarized scala-mode groovy-mode org-bullets clojure-mode xterm-color flycheck yaml-mode persistent-scratch markdown-mode logview log4j-mode)))
  '(persistent-scratch-autosave-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -326,5 +340,9 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
               (org-present-small)
               (org-remove-inline-images)))
 ;; org-present ends here
+
+;; customize eshell
+
+;; customize eshell ends
 
 ;;; .emacs ends here
