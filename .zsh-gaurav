@@ -1,0 +1,47 @@
+ssh-add -K ~/.ssh/id_rsa
+source ~/.aliases
+source ~/.work-aliases
+
+export JAVA_HOME=$(/usr/libexec/java_home)
+export LOCAL_BIN=~/localBin
+export BREW_BIN=/usr/local/bin
+export DOT_LOCAL_BIN=~/.local/bin
+export GO_BIN=~/go/bin
+export KUBEBUILDER_ASSETS=~/softwares/kubebuilder/kubebuilder_1.0.7_darwin_amd64/bin
+
+export PATH=$GO_BIN:$DOT_LOCAL_BIN:$LOCAL_BIN:$BREW_BIN:$PATH:$KUBEBUILDER_ASSETS
+
+export HISTFILE="$HOME/.history"
+export HISTSIZE=50000
+export SAVEHIST=$HISTSIZE
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+
+# go set up
+export GOPATH=$HOME/go
+export GOROOT=/usr/local/opt/go/libexec
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin
+
+
+
+#temp for tmux fix
+export EVENT_NOKQUEUE=1
+
+# setup autocomplete in zsh
+source <(kubectl completion zsh)
+source <(helm completion zsh)
+source <(minikube completion zsh)
+#source <(kind completion zsh)
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/d066419/softwares/gcloud/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/d066419/softwares/gcloud/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/d066419/softwares/gcloud/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/d066419/softwares/gcloud/google-cloud-sdk/completion.zsh.inc'; fi
+
+#jenv setup
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"

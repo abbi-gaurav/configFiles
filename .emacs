@@ -59,7 +59,7 @@
 (require 'ob-shell)
 (require 'ob-haskell)
 (require 'ob-java)
-(require 'ob-go)
+;; (require 'ob-go)
 
 (eval-after-load "org"
   '(require 'ox-md nil t))

@@ -51,3 +51,6 @@ else
 	echo "in bash emacs"
 	export PATH=$PATH:/usr/local/bin
 fi
+
+
+alias grep='grep --color=always'

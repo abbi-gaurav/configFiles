@@ -1,17 +1,14 @@
-[[ $EMACS = t ]] && unsetopt zle
-
 # Path to your oh-my-zsh installation.
 echo "inside .zshrc"
 
-export ZSH=/Users/gabbi/.oh-my-zsh
+export ZSH=/Users/d066419/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-# frisk, gentoo, kphoen, philips, pygmalion, simple, steeef, lambda, maran, ys, agnoster, powerlevel9k/powerlevel9k
-ZSH_THEME="powerlevel9k/powerlevel9k"
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+#[agnoster, avit, jreese, kphoen, lambda, maran, philips, powerlevel9k/powerlevel9k, pygmalion, simple, ys]
+ZSH_THEME="spaceship"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -21,7 +18,7 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="false"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -55,7 +52,8 @@ POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git bundler docker docker-compose gem gradle osx sbt scala tmux)
+# zsh-autosuggestions
+plugins=(git git-flow bundler docker gradle osx sbt tmux history sudo go)
 
 # User configuration
 
@@ -64,7 +62,9 @@ plugins=(git bundler docker docker-compose gem gradle osx sbt scala tmux)
 
 source $ZSH/oh-my-zsh.sh
 
-source ~/.zshGaurav
+source ~/.zsh-gaurav
+
+#SPACESHIP_PROMPT_SEPARATE_LINE=true
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -90,3 +90,10 @@ export LANG=en_US.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+#DISABLE_CORRECTION="true"
+
+# tweak
+SPACESHIP_DIR_TRUNC=0
+SPACESHIP_DIR_TRUNC_REPO=false
